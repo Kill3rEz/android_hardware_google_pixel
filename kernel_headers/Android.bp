@@ -5,38 +5,24 @@ package {
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
-kernel_headers {
+// PenguinOS/dodge: only qti_kernel_headers (kernel core uapi) and
+// audio_kernel_headers are provided here, as aliases onto the imported Lineage
+// kernel-header mechanism (generated_kernel_header_defaults -> headers_install
+// on kernel/oneplus/sm8750 -> usr/include, usr/audio/...).
+//
+// The device/display/ipa/synx/smmu/smcinvoke kernel headers are NOT redefined
+// here — they are produced by dedicated genrules in kernel/oneplus/sm8750-modules
+// (e.g. display-drivers/Android.bp: qti_display_kernel_headers generates
+// display/drm/msm_drm_aiqe.h). Redefining them here shadowed those with empty
+// kernel-core headers. The SM8750 CAF HAL namespace imports sm8750-modules, so
+// the real ones resolve.
+
+cc_library_headers {
     name: "qti_kernel_headers",
-    vendor: true,
-    recovery_available: true,
+    defaults: ["generated_kernel_header_defaults"],
 }
 
-kernel_headers {
-    name: "qti_display_kernel_headers",
-    vendor: true,
-    recovery_available: true
-}
-
-kernel_headers {
-    name: "qti_ipa_kernel_headers",
-    vendor: true,
-    recovery_available: true
-}
-
-kernel_headers {
-    name: "smcinvoke_kernel_headers",
-    vendor: true,
-    recovery_available: true
-}
-
-kernel_headers {
-    name: "smmu_proxy_uapi_header",
-    vendor: true,
-    recovery_available: true
-}
-
-kernel_headers {
-    name: "qti_synx_kernel_headers",
-    vendor: true,
-    recovery_available: true
+cc_library_headers {
+    name: "audio_kernel_headers",
+    defaults: ["generated_kernel_header_defaults"],
 }
