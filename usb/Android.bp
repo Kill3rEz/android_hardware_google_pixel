@@ -179,11 +179,10 @@ cc_fuzz {
     },
 }
 
-cc_aconfig_library {
-    name: "android.hardware.usb.flags-aconfig-cc-lib",
-    vendor: true,
-    aconfig_declarations: "android.hardware.usb.flags-aconfig",
-}
+// NB: android.hardware.usb.flags-aconfig-cc-lib (incl. its .vendor variant) is
+// provided canonically by frameworks/base on A17; the local definition here
+// (from the A16 pixel tree) collided with it in make. Dropped — modules below
+// use the frameworks/base one.
 
 cc_binary {
     name: "usb_accessory_utils",
